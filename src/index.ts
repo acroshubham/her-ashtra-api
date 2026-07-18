@@ -5,7 +5,7 @@ import "dotenv/config";
 // failed DB query took the entire server down before this was added).
 import "express-async-errors";
 import express from "express";
-import cors from "cors";
+// import cors from "cors"; // disabled — see note below
 import swaggerUi from "swagger-ui-express";
 import { authRouter } from "./routes/auth.routes.js";
 import { openApiSpec } from "./openapi.js";
@@ -20,28 +20,12 @@ const app = express();
 
 app.use(express.json());
 
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
-  .split(",")
-  .map((o) => o.trim())
-  .filter(Boolean);
+// CORS middleware disabled per team decision — it was never actually capable
+// of blocking native app (Expo Go) requests since those don't send an Origin
+// header at all; this only ever affected browser-based testing (Expo web).
+// app.use(cors());
 
-app.use((req, res, next) => {
-  // Requests from the API's own origin (e.g. Swagger UI's "Try it out" at
-  // /api-docs) always carry an Origin header even though they're same-host —
-  // trust those in addition to the configured frontend origins.
-  const selfOrigin = `${req.protocol}://${req.get("host")}`;
-  cors({
-    origin(origin, callback) {
-      // No Origin header = native app / curl / health checks — always allow.
-      if (!origin || origin === selfOrigin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      callback(new Error(`Origin ${origin} not allowed by CORS`));
-    },
-  })(req, res, next);
-});
-
-// Registered before any DB-touching or auth-requiring route, so Koyeb's
+// Registered before any DB-touching or auth-requiring route, so the host's
 // health check (and any uptime pinger) never 500s because a Neon project
 // happens to be cold. See BACKEND_IMPLEMENTATION_PLAN.md section 6.
 app.get("/health", (_req, res) => res.sendStatus(200));
