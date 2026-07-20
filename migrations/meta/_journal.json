@@ -15,6 +15,20 @@
       "when": 1784382089771,
       "tag": "0001_magenta_lightspeed",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784472564491,
+      "tag": "0002_lame_emma_frost",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1784535345392,
+      "tag": "0003_yellow_wonder_man",
+      "breakpoints": true
     }
   ]
 }

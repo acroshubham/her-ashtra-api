@@ -8,6 +8,9 @@ import express from "express";
 // import cors from "cors"; // disabled — see note below
 import swaggerUi from "swagger-ui-express";
 import { authRouter } from "./routes/auth.routes.js";
+import { contactsRouter } from "./routes/contacts.routes.js";
+import { sosRouter } from "./routes/sos.routes.js";
+import { trackApiRouter, trackPageRouter } from "./routes/track.routes.js";
 import { openApiSpec } from "./openapi.js";
 import { landingPageHtml } from "./landingPage.js";
 // This is a team hackathon backend — only Auth is built here. Safe Trip,
@@ -44,6 +47,11 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/contacts", contactsRouter);
+app.use("/api/sos", sosRouter);
+app.use("/api/track", trackApiRouter);
+// Public human-facing tracking page (HTML) opened from the SOS SMS link.
+app.use("/track", trackPageRouter);
 
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error("[unhandled]", err);

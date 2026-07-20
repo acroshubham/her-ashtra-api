@@ -1,9 +1,11 @@
 import { Pool, neonConfig } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-serverless";
 import ws from "ws";
-import * as schema from "../schema/auth.schema.js";
-// Future features import their own schema file here too — one shared pool,
-// one Neon project. See drizzle.config.ts for why.
+import * as authSchema from "../schema/auth.schema.js";
+import * as sosSchema from "../schema/sos.schema.js";
+// Each feature imports its own schema file here — one shared pool, one Neon
+// project. See drizzle.config.ts for why.
+const schema = { ...authSchema, ...sosSchema };
 
 neonConfig.webSocketConstructor = ws;
 
