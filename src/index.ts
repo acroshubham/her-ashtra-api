@@ -10,6 +10,7 @@ import swaggerUi from "swagger-ui-express";
 import { authRouter } from "./routes/auth.routes.js";
 import { contactsRouter } from "./routes/contacts.routes.js";
 import { sosRouter } from "./routes/sos.routes.js";
+import { safeHavenRouter } from "./routes/safeHaven.routes.js";
 import { trackApiRouter, trackPageRouter } from "./routes/track.routes.js";
 import { openApiSpec } from "./openapi.js";
 import { landingPageHtml } from "./landingPage.js";
@@ -49,6 +50,7 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRouter);
 app.use("/api/contacts", contactsRouter);
 app.use("/api/sos", sosRouter);
+app.use("/api/safe-haven", safeHavenRouter);
 app.use("/api/track", trackApiRouter);
 // Public human-facing tracking page (HTML) opened from the SOS SMS link.
 app.use("/track", trackPageRouter);
